@@ -1,0 +1,63 @@
+... building the SdA model
+... getting the pretraining functions
+... pre-training the model
+The pretraining code for file sda.py ran for 182.88m
+... getting the finetuning functions
+... finetunning the model
+epoch 1, minibatch 50000/50000, validation error 4.790000 %
+     epoch 1, minibatch 50000/50000, test error of best model 5.320000 %
+epoch 2, minibatch 50000/50000, validation error 2.960000 %
+     epoch 2, minibatch 50000/50000, test error of best model 2.990000 %
+epoch 3, minibatch 50000/50000, validation error 2.460000 %
+     epoch 3, minibatch 50000/50000, test error of best model 2.610000 %
+epoch 4, minibatch 50000/50000, validation error 2.320000 %
+     epoch 4, minibatch 50000/50000, test error of best model 2.230000 %
+epoch 5, minibatch 50000/50000, validation error 2.020000 %
+     epoch 5, minibatch 50000/50000, test error of best model 2.200000 %
+epoch 6, minibatch 50000/50000, validation error 1.840000 %
+     epoch 6, minibatch 50000/50000, test error of best model 2.110000 %
+epoch 7, minibatch 50000/50000, validation error 2.370000 %
+epoch 8, minibatch 50000/50000, validation error 2.020000 %
+epoch 9, minibatch 50000/50000, validation error 1.810000 %
+     epoch 9, minibatch 50000/50000, test error of best model 1.950000 %
+epoch 10, minibatch 50000/50000, validation error 1.660000 %
+     epoch 10, minibatch 50000/50000, test error of best model 1.800000 %
+epoch 11, minibatch 50000/50000, validation error 1.910000 %
+epoch 12, minibatch 50000/50000, validation error 1.650000 %
+     epoch 12, minibatch 50000/50000, test error of best model 1.890000 %
+epoch 13, minibatch 50000/50000, validation error 1.370000 %
+     epoch 13, minibatch 50000/50000, test error of best model 1.540000 %
+epoch 14, minibatch 50000/50000, validation error 1.470000 %
+epoch 15, minibatch 50000/50000, validation error 1.540000 %
+epoch 16, minibatch 50000/50000, validation error 1.380000 %
+epoch 17, minibatch 50000/50000, validation error 1.350000 %
+     epoch 17, minibatch 50000/50000, test error of best model 1.280000 %
+epoch 18, minibatch 50000/50000, validation error 1.330000 %
+     epoch 18, minibatch 50000/50000, test error of best model 1.280000 %
+epoch 19, minibatch 50000/50000, validation error 1.320000 %
+     epoch 19, minibatch 50000/50000, test error of best model 1.270000 %
+epoch 20, minibatch 50000/50000, validation error 1.290000 %
+     epoch 20, minibatch 50000/50000, test error of best model 1.260000 %
+epoch 21, minibatch 50000/50000, validation error 1.260000 %
+     epoch 21, minibatch 50000/50000, test error of best model 1.250000 %
+epoch 22, minibatch 50000/50000, validation error 1.270000 %
+epoch 23, minibatch 50000/50000, validation error 1.260000 %
+epoch 24, minibatch 50000/50000, validation error 1.260000 %
+epoch 25, minibatch 50000/50000, validation error 1.270000 %
+epoch 26, minibatch 50000/50000, validation error 1.270000 %
+epoch 27, minibatch 50000/50000, validation error 1.270000 %
+epoch 28, minibatch 50000/50000, validation error 1.270000 %
+epoch 29, minibatch 50000/50000, validation error 1.270000 %
+epoch 30, minibatch 50000/50000, validation error 1.270000 %
+epoch 31, minibatch 50000/50000, validation error 1.270000 %
+epoch 32, minibatch 50000/50000, validation error 1.270000 %
+epoch 33, minibatch 50000/50000, validation error 1.280000 %
+epoch 34, minibatch 50000/50000, validation error 1.290000 %
+epoch 35, minibatch 50000/50000, validation error 1.290000 %
+epoch 36, minibatch 50000/50000, validation error 1.290000 %
+epoch 37, minibatch 50000/50000, validation error 1.280000 %
+epoch 38, minibatch 50000/50000, validation error 1.280000 %
+epoch 39, minibatch 50000/50000, validation error 1.280000 %
+epoch 40, minibatch 50000/50000, validation error 1.280000 %
+epoch 41, minibatch 50000/50000, validation error 1.280000 %
+The training code for file sda.py ran for 229.50m

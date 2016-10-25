@@ -143,7 +143,7 @@ def learn_DA(learning_rate=0.1,epochs=15,dataset='mnist.pkl.gz',batch_size=20,ou
     ######################  
     
     rng = numpy.random.RandomState(123)
-    theano_rng = RandomStreams(rng.randint(2 ** 30))
+    theano_rng = RandomStreams(seed=rng.randint(2 ** 30))
     
     # create the instance of class DA
     

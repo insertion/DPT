@@ -468,7 +468,7 @@ def test_SdA(finetune_lr=0.1, pretraining_epochs=15,
                            'best model %f %%') %
                           (epoch, minibatch_index + 1, n_train_batches,
                            test_score * 100.))
-
+            
             if patience <= iter:
                 done_looping = True
                 break
