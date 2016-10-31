@@ -98,7 +98,7 @@ class LeNetConvPoolLayer(object):
         # activation function can be put in pool layer
         self.params = [self.W,self.b]
 
-def trian_LeNet(learning_rate = 0.1,n_epochs=1000,dataset='mnist.pkl.gz',nkernels=[20,50],batch_size=500):
+def trian_LeNet(learning_rate = 0.1,n_epochs=200,dataset='mnist.pkl.gz',nkernels=[20,50],batch_size=500):
     """
         :param nkerns: number of kernels on each layer
         
@@ -115,7 +115,7 @@ def trian_LeNet(learning_rate = 0.1,n_epochs=1000,dataset='mnist.pkl.gz',nkernel
     n_valid_batches = valid_set_x.get_value(borrow=True).shape[0] / batch_size
     n_test_batches  = test_set_x.get_value(borrow=True).shape[0]  / batch_size
     
-    index = T.lscalar()
+    index = T.iscalar()
     x = T.matrix('input')
     y = T.ivector('label')
     
@@ -129,7 +129,7 @@ def trian_LeNet(learning_rate = 0.1,n_epochs=1000,dataset='mnist.pkl.gz',nkernel
     
     # Reshape matrix of rasterized images of shape (batch_size, 28 * 28)
     # class's params should be real value ,not tensor vaiable
-    layer0_input =  get_corrupted_input(x.reshape((batch_size,1,28,28)),0.1)
+    layer0_input =  get_corrupted_input(x.reshape((batch_size,1,28,28)),0.0)
     
     layer0 = LeNetConvPoolLayer(
                 rng,
@@ -184,17 +184,33 @@ def trian_LeNet(learning_rate = 0.1,n_epochs=1000,dataset='mnist.pkl.gz',nkernel
     updates = [
         (param,param-learning_rate*grad) for param ,grad in zip(params,grads)
         ]
-        
+  
+    # ## test SGD 随机样本
+    index2 = T.ivector()
     update_model = theano.function(
-        [index],
+        [index2],
+        # index2是有类型的，在调用函数输入参数的时候，类型要匹配
         [cost,classifier.errors(y)],
         # Outputs must be theano Variable or Out instances
         updates=updates,
         givens = {
-            x: train_set_x[index * batch_size: (index + 1) * batch_size],
-            y: train_set_y[index * batch_size: (index + 1) * batch_size]
-            }
+            x: train_set_x[index2],
+            y: train_set_y[index2]
+            },
+        on_unused_input ='ignore',
+        allow_input_downcast = True
         )
+    # test SGD 随机样本
+    # update_model = theano.function(
+    #     [index],
+    #     [cost,classifier.errors(y)],
+    #     # Outputs must be theano Variable or Out instances
+    #     updates=updates,
+    #     givens = {
+    #         x: train_set_x[index * batch_size: (index + 1) * batch_size],
+    #         y: train_set_y[index * batch_size: (index + 1) * batch_size]
+    #         }
+    #     )
         
     validate_model = theano.function(
         [index],
@@ -237,33 +253,43 @@ def trian_LeNet(learning_rate = 0.1,n_epochs=1000,dataset='mnist.pkl.gz',nkernel
     while epoch < n_epochs and not stop_looping:
         epoch += 1
         for minibatch_index in range(n_train_batches):
-            train_cost,train_error = update_model(minibatch_index)
+           
+            index = rng.randint(batch_size * n_train_batches,size=batch_size)
+            train_cost,train_error = update_model(index)
+            # train_cost,train_error = update_model(minibatch_index)
             iter =(epoch -1) * n_train_batches + minibatch_index
+            
+            
             if (iter  + 1) % validation_frequency ==0:
+
                 validation_loss = numpy.mean([validate_model(i) for i in range(n_valid_batches)])
                 if validation_loss < best_validation_loss:
+                    
+                    
                     if validation_loss < best_validation_loss * improvement_threshold:
                         patience = max(patience,iter*patience_incease)
                     best_validation_loss = validation_loss
                     
                 print 'epoch %i ,iteration %i,training cost %f %%,train error %f %%,validation error %f %%' %(epoch,iter,train_cost*100,train_error*100,validation_loss*100)
+            
+            
             if iter >= patience:
                 stop_looping = True
                 break
     test_loss = numpy.mean([test_model(i) for i in range(n_test_batches)])
-    with open('best_MLP_model.pkl', 'wb') as f:
-        # this will overwrite current contents
-        # 这里的dump相当与write
-        pickle.dump(classifier, f)
-        # 我们把变量从内存中变成可存储或传输的过程称之为序列化，
-        # 在Python中叫pickling，在其他语言中也被称之为serialization，marshalling，flattening等等，都是一个意思
-        # class method as a function
+    # with open('best_CNN_model.pkl', 'wb') as f:
+    #     # this will overwrite current contents
+    #     # 这里的dump相当与write
+    #     pickle.dump(classifier, f)
+    #     # 我们把变量从内存中变成可存储或传输的过程称之为序列化，
+    #     # 在Python中叫pickling，在其他语言中也被称之为serialization，marshalling，flattening等等，都是一个意思
+    #     # class method as a function
 
 
-        # 当一个函数(function)定义在了class语句的块中（或者由 type 来创建的), 它会转成一个 unbound method ,
-        # 当我们通过一个类的实例来 访问这个函数的时候，它就转成了 bound method , bound method 会自动把这个实例作为函数的地一个参数。
-        # 实例方法即绑定方法不能被pickle，需要注册 使用copy_reg 或者直接使用dill代替pickle
-        # 所以， bound method 就是绑定了一个实例的方法， 否则叫做 unbound method .它们都是方法(method), 是出现在 class 中的函数。
+    #     # 当一个函数(function)定义在了class语句的块中（或者由 type 来创建的), 它会转成一个 unbound method ,
+    #     # 当我们通过一个类的实例来 访问这个函数的时候，它就转成了 bound method , bound method 会自动把这个实例作为函数的地一个参数。
+    #     # 实例方法即绑定方法不能被pickle，需要注册 使用copy_reg 或者直接使用dill代替pickle
+    #     # 所以， bound method 就是绑定了一个实例的方法， 否则叫做 unbound method .它们都是方法(method), 是出现在 class 中的函数。
     end_time = timeit.default_timer()            
     print ( 'Optimization complete with best validation loss of %f %%' %(best_validation_loss*100)) 
     print 'The code run for %d epochs %d secs ,with %f epcohs/sec' %(epoch,end_time - start_time ,epoch*1.0/(end_time-start_time))
